@@ -1,6 +1,8 @@
 # Ethereum-trasaction-analysis-with-MapReduce
 
-Analysis of Ethereum Transactions using MapReduce on Hadoop
+Analysis of Ethereum Transactions using MapReduce on Hadoop.
+
+For details on the implementation and the results please see: https://github.com/AREEBAKAMIL/Ethereum-trasaction-analysis-with-MapReduce/blob/main/Ethereum%20transaction%20Analysis%20results.pdf
 
 # About the dataset
 Ethereum is an open-source blockchain that is known for its smart contracts and serves as a basis for the cryptocurrency Ether. 
