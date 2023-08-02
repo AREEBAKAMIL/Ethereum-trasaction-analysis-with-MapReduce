@@ -55,7 +55,8 @@ is_erc721: Whether this contract is an ERC721 contract
 block_number: Block number where this contract was created
 
 Example of a contract:
-| address|is_erc20|is_erc721|block_number| block_timestamp| 
+|address|is_erc20|is_erc721|block_number| block_timestamp| 
+
 |0x9a78bba29a2633b...| false| false| 8623545|2019-09-26 08:50:...|
 
 ## Scams
