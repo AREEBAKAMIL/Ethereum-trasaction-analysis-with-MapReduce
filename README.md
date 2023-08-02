@@ -3,10 +3,10 @@
 Analysis of Ethereum Transactions using MapReduce on Hadoop
 
 # About the dataset
-Ethereum is an opensource blockchain that is known for its smart contracts and serves as a basis for the cryptocurrency Ether. 
+Ethereum is an open-source blockchain that is known for its smart contracts and serves as a basis for the cryptocurrency Ether. 
 At its core, Ethereum is a decentralized global software platform powered by blockchain technology. It is most commonly known for its native cryptocurrency, ether (ETH).
 
-Normally, one can use a CLI tool such as GETH to access the Ethereum blockchain, however recent tools allow scraping all block/transactions and dump these to csv's to be processed in bulk; notably Ethereum-ETL. These dumps are uploaded daily into a repository on Google BigQuery. I have used this source as the dataset for this coursework.
+Normally, one can use a CLI tool such as GETH to access the Ethereum blockchain, however, recent tools allow scraping all block/transactions and dump these to CSVs to be processed in bulk; notably Ethereum-ETL. These dumps are uploaded daily into a repository on Google BigQuery. I have used this source as the dataset for this coursework.
 
 The dataset consists of the following schemas:
 1. Blocks
@@ -32,7 +32,7 @@ Example of a block:
 |4776199|0x9172600443ac88e...|0x5a0b54d5dc17e0a...|1765656009004680| 9773| 7995996| 2042230|1513937536| 62|
 
 ## Transactions
-The transactions schema consist of the following:
+The transactions schema consists of the following:
 block_number: Block number where this transaction was in
 from_address: Address of the sender
 to_address: Address of the receiver. null when it is a contract creation transaction
@@ -74,7 +74,21 @@ reporter: User/company who reported the scam first
 ip: IP address of the reporter
 status: If the scam is currently active, inactive or has been taken offline
 
+Example:
 0x11c058c3efbf53939fb6872b09a2b5cf2410a1e2c3f3c867664e43a626d878c0: { id: 81, name: "myetherwallet.us", url: "http://myetherwallet.us", coin: "ETH", category: "Phishing", subcategory: "MyEtherWallet", description: "did not 404.,MEW Deployed", addresses: [ "0x11c058c3efbf53939fb6872b09a2b5cf2410a1e2c3f3c867664e43a626d878c0", "0x2dfe2e0522cc1f050edcc7a05213bb55bbb36884ec9468fc39eccc013c65b5e4", "0x1c6e3348a7ea72ffe6a384e51bd1f36ac1bcb4264f461889a318a3bb2251bf19" ], reporter: "MyCrypto", ip: "198.54.117.200", nameservers: [ "dns102.registrar-servers.com", "dns101.registrar-servers.com" ], status: "Offline" },
 
 # About the files
+
+## Part A - Time Analysis: Number of transactions per month
+For time analysis, the Blocks scheme was used as the input for the job. The blocks table consists of the fields transaction_count and timestamp. This job consists of a mapper, a combiner and a reducer. The output of this job is the sum of transacton_count for each month-year.
+
+## Part B - Top Ten Most Popular Services
+For this part, the top 10 addresses containing the highest value received are obtained. The contracts and transactions schema was used as the input. The transactions schema consists of the to_address and value. The contracts schema consists of addresses. In this job, the value transferred  is aggregated for each to_address from the transactions table and then the addresses in the contracts table are joined with the to_addresses from the transactions schema. This job consists of a mapper and 2 reducers.
+
+## Part C - a comparative evaluation - Spark vs MrJob
+Part B was implemented in Spark. The job ran much faster in Spark than in MrJob. The results obtained with Spark and MrJob are exactly the same. For this job, spark seems appropriate since it took much less amount of time. mrJob took around 25 minutes whereas Spark took around 4 minutes to run. Spark saves time by reducing the number of read and write cycles to disk and storing
+intermediate data in-memory.
+
+## Part C - gas guzzler
+To check how the gas price has changed over time, the maximum gas prices for each month-year are calculated and sorted. Then the top ten are picked out. For this, the transactions table is used as the input. For this job, one mapper and 2 reducers are used.
 
